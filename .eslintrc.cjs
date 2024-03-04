@@ -60,7 +60,30 @@ module.exports = {
     
     'prefer-promise-reject-errors': 'off',
 
+    'vue/html-quotes': ['error', 'double', { avoidEscape: true }],
+    'vue/attributes-order': [
+      'error',
+      {
+        order: [
+          'DEFINITION',
+          'LIST_RENDERING',
+          'CONDITIONALS',
+          'RENDER_MODIFIERS',
+          'GLOBAL',
+          ['UNIQUE', 'SLOT'],
+          'TWO_WAY_BINDING',
+          'OTHER_DIRECTIVES',
+          'OTHER_ATTR',
+          'EVENTS',
+          'CONTENT'
+        ],
+        alphabetical: false
+      }
+    ],
+    quotes: ['error', 'single', { avoidEscape: true }],
+    'semi': ['error', 'never'],
     // allow debugger during development only
-    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off'
+    'no-debugger': process.env.NODE_ENV === 'production' ? 'error' : 'off',
+    'no-console': process.env.NODE_ENV === 'production' ? 'error' : 'off'
   }
 }
