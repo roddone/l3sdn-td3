@@ -1,11 +1,16 @@
 <template>
   <div class="q-pa-md">
+    
     <q-input v-model="newTask.name" label="Nom de la tâche" filled dense></q-input>
     <q-input v-model="newTask.details" label="Détails de la tâche" filled dense></q-input>
     <q-toggle v-model="newTask.completed" label="Terminée" dense></q-toggle> 
     <br>
     <q-btn class="q-mt-md" color="primary" label="Ajouter" @click="addTask"></q-btn>
     <q-list bordered class="q-mt-md">
+
+      <q-linear-progress :value="completedTasksPercentage" color="primary" class="q-mb-md"></q-linear-progress>
+      <div class="text-completed-tasks">{{ completedTasksCount }}/{{ tasks.length }} tâches complétées</div>
+
       <q-item v-for="(task, index) in tasks" :key="index">
         <q-item-section>
           <q-checkbox v-model="task.completed" color="positive"></q-checkbox>
@@ -16,7 +21,7 @@
             <q-badge v-if="task.completed" color="green" label="Terminée"></q-badge>
             <q-badge v-else color="red" label="Non terminée"></q-badge>
           </div>
-          <q-banner class="bg-primary text-white" color="primary" label="Détails" clickable @click="toggleDetails(index)"> Détails </q-banner>
+          <q-banner class="bg-primary text-white" color="primary" label="Détails" clickable > Détails </q-banner>
           <q-collapse v-model="task.showDetails">
             <q-card>
               <q-card-section>
@@ -34,7 +39,7 @@
 </template>
 
 <script setup>
-import { ref } from 'vue'
+import { ref, computed } from 'vue'
 
 const newTask = ref({ name: '', details: '', completed: false }) 
 const tasks = ref([
@@ -55,18 +60,27 @@ const addTask = () => {
   }
 }
 
-const toggleDetails = (index) => {
-  tasks.value[index].showDetails = !tasks.value[index].showDetails
-}
-
 const deleteTask = (index) => {
   tasks.value.splice(index, 1)
 }
+
+const completedTasksCount = computed(() => {
+  return tasks.value.filter(task => task.completed).length
+})
+
+const completedTasksPercentage = computed(() => {
+  return (completedTasksCount.value / tasks.value.length) * 100
+})
 </script>
 
 <style>
 .q-item-section-side {
   display: flex;
   align-items: center;
+}
+
+.text-completed-tasks {
+  text-align: center;
+  margin-bottom: 10px;
 }
 </style>
