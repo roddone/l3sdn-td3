@@ -69,7 +69,7 @@ const completedTasksCount = computed(() => {
 })
 
 const completedTasksPercentage = computed(() => {
-  return (completedTasksCount.value / tasks.value.length) * 100
+  return (completedTasksCount.value / tasks.value.length)
 })
 </script>
 
