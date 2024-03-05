@@ -1,18 +1,20 @@
 <template>
   <div class="q-pa-md">
-    <q-input v-model="newTask" placeholder="Ajouter une tâche..." @keyup.enter="addTask"></q-input>
-
+    <q-input v-model="newTask.name" placeholder="Nom de la tâche..."></q-input>
+    <q-input v-model="newTask.details" placeholder="Détails de la tâche..."></q-input> 
+    <br>
+    <q-btn color="primary" label="Ajouter" @click="addTask"></q-btn> 
     <q-list bordered>
       <q-item v-for="(task, index) in tasks" :key="index">
         <q-item-section>
           <q-checkbox v-model="task.completed" color="positive"></q-checkbox>
         </q-item-section>
         <q-item-section>
-          <q-item-label>{{ task.name }}</q-item-label>
+          <q-item-label>{{ task.name }}</q-item-label> <br>
           <q-btn color="primary" label="Détails" @click="toggleDetails(index)"></q-btn>
           <q-collapse v-model="task.showDetails">
             <q-card>
-              <q-card-section>
+              <q-card-section >
                 {{ task.details }}
               </q-card-section>
             </q-card>
@@ -29,22 +31,22 @@
 <script setup>
 import { ref } from 'vue'
 
-const newTask = ref('')
+const newTask = ref({ name: '', details: '' })
 const tasks = ref([
-  { name: 'Tâche 1', details: 'Détails de la tâche 1', completed: false, showDetails: false },
-  { name: 'Tâche 2', details: 'Détails de la tâche 2', completed: false, showDetails: false },
-  { name: 'Tâche 3', details: 'Détails de la tâche 3', completed: false, showDetails: false }
+  { name: 'Tâche 1', details: 'Détails de la tâche 1', completed: true, showDetails: true },
+  { name: 'Tâche 2', details: 'Détails de la tâche 2', completed: false, showDetails: true },
+  { name: 'Tâche 3', details: 'Détails de la tâche 3', completed: false, showDetails: true }
 ])
 
 const addTask = () => {
-  if (newTask.value.trim() !== '') {
+  if (newTask.value.name.trim() !== '' || newTask.value.details.trim() !== '') {
     tasks.value.push({
-      name: newTask.value,
-      details: 'Détails de la tâche',
+      name: newTask.value.name,
+      details: newTask.value.details,
       completed: false,
-      showDetails: false
+      showDetails: true
     })
-    newTask.value = ''
+    newTask.value = { name: '', details: '' }
   }
 }
 
