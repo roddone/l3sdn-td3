@@ -16,7 +16,7 @@
             <span v-if="task.completed" style="color: green;">Terminée</span>
             <span v-else style="color: red;">Non terminée</span>
           </div>
-          <q-btn color="primary" label="Détails" @click="toggleDetails(index)"></q-btn>
+          <q-banner class="bg-primary text-white" color="primary" label="Détails" > Détails </q-banner>
           <q-collapse v-model="task.showDetails">
             <q-card>
               <q-card-section>
@@ -53,10 +53,6 @@ const addTask = () => {
     })
     newTask.value = { name: '', details: '', completed: false } // Réinitialiser les champs après l'ajout
   }
-}
-
-const toggleDetails = (index) => {
-  tasks.value[index].showDetails = !tasks.value[index].showDetails
 }
 
 const deleteTask = (index) => {
