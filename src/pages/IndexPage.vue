@@ -4,9 +4,8 @@
     <q-input v-model="newTask.details" label="Détails de la tâche" filled dense></q-input>
     <q-toggle v-model="newTask.completed" label="Terminée" dense></q-toggle> 
     <br>
-    <q-btn color="primary" label="Ajouter" @click="addTask"></q-btn>
-    <br>
-    <q-list bordered>
+    <q-btn class="q-mt-md" color="primary" label="Ajouter" @click="addTask"></q-btn>
+    <q-list bordered class="q-mt-md">
       <q-item v-for="(task, index) in tasks" :key="index">
         <q-item-section>
           <q-checkbox v-model="task.completed" color="positive"></q-checkbox>
@@ -50,6 +49,7 @@ const addTask = () => {
       name: newTask.value.name,
       details: newTask.value.details,
       completed: newTask.value.completed, 
+      showDetails: true
     })
     newTask.value = { name: '', details: '', completed: false } 
   }
@@ -63,3 +63,10 @@ const deleteTask = (index) => {
   tasks.value.splice(index, 1)
 }
 </script>
+
+<style>
+.q-item-section-side {
+  display: flex;
+  align-items: center;
+}
+</style>
