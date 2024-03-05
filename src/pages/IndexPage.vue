@@ -21,9 +21,18 @@
       <q-btn label="Ajouter une tâche" @click="addTask"></q-btn>
       <ul>
         <li v-for="(task, index) in tasks" :key="index">
-          <q-checkbox v-model="task.done" @change="toggleDone(index)"></q-checkbox>
-          <span :class="{ 'task-done': task.done }" @click="openTask(index)">{{ task.title }}</span>
-          <q-btn flat dense icon="close" class="pl-5" @click="removeTask(index)"></q-btn>
+          <q-card class="my-card">
+          <q-card-section class="cursor-pointer basic-flex items-center" @click="openTask(index)">
+
+          <q-checkbox v-model="task.done" @update:model-value="toggleDone(index)"></q-checkbox>
+          <span class="flex-1"  :class="{ 'task-done': task.done }">{{ task.title }}</span>
+          <q-btn
+            flat
+            dense
+            icon="close"
+           class="pl-5" @click="removeTask(index)"></q-btn>
+          </q-card-section>
+          </q-card>
         </li>
       </ul>
     </div>
@@ -50,7 +59,7 @@ const modal = ref({
 })
 
 const addTask = () => {
-  if (task.value.trim()) {
+  if (task.value.trim() && description.value.trim()) {
     tasksStore.addTask({
       title: task.value.trim(),
       description: description.value.trim(),
@@ -58,14 +67,16 @@ const addTask = () => {
     })
     task.value = ''
     description.value = ''
+  }else {
+    alert('Veuillez remplir les champs')
   }
 }
 
-const update = (index, title, description, done) => {
-  tasksStore.updateTask(index, {
-    title: title,
-    description: description,
-    done: done
+const update = (data) => {
+  tasksStore.updateTask(data.index, {
+    title: data.title,
+    description: data.description,
+    done: data.done
   })
 }
 
@@ -101,7 +112,20 @@ ul {
   margin: 0 auto;
   width: 90%;
 }
+
+.flex-1 {
+  flex: 1;
+}
+.basic-flex {
+  display: flex;
+}
 .pl-5 {
   margin-left: 10px;
+}
+.cursor-pointer {
+  cursor: pointer;
+}
+.items-center {
+  align-items: center;
 }
 </style>

@@ -1,10 +1,8 @@
 <template>
   <div class="popup">
-    <div class="popup-content">
-      <h2 contenteditable="true" @input="update">{{ props.title }}</h2>
-      <p contenteditable="true" @input="update">{{ props.description }}</p>
-      <button @click="closePopup">Close</button>
-    </div>
+      <h2 contenteditable="true" @input="update('title', $event)">{{ props.title }}</h2>
+      <p contenteditable="true" @input="update('description', $event)">{{ props.description }}</p>
+      <q-btn label="Fermer" @click="closePopup" />
   </div>
 </template>
 
@@ -36,14 +34,21 @@ const closePopup = () => {
   emit('close')
 }
 
-const update = () => {
-  emit('update', {
+const update = (title, event) => {
+  let currentdata = {
     index: props.index,
     title: props.title,
     description: props.description,
     done: props.done
-  })
+  }
+  if (title === 'title') {
+    currentdata.title = event.target.innerText
+  } else {
+    currentdata.description = event.target.innerText
+  }
+  emit('update', currentdata)
 }
+
 </script>
 
 <style>
@@ -52,18 +57,17 @@ const update = () => {
   top: 0;
   left: 0;
   width: 100%;
-  height: 100%;
-  background-color: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 1000;
+  height: 100vw;
+  background-color: white;
+  padding: 2rem;
+  z-index: 9999;
+}
+[contenteditable] {
+  border: 1px solid #ccc;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  width: 100%;
+  min-height: 2rem;
 }
 
-.popup-content {
-  background-color: white;
-  padding: 20px;
-  border-radius: 5px;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
-}
 </style>

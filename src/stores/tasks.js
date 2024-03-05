@@ -23,10 +23,10 @@ export const useTasks = defineStore('tasks', {
       }
     },
     toggleDone(index) {
-      this.tasks[index].done = !this.tasks[index].done
       this.saveTasksToLocalStorage()
     },
     updateTask(index, { title, description, done }) {
+      console.log(title, description, done)
       this.tasks[index] = { title, description, done }
       console.log('works')
       this.saveTasksToLocalStorage()
