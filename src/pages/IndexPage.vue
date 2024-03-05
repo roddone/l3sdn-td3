@@ -8,7 +8,7 @@
     <q-btn class="q-mt-md" color="primary" label="Ajouter" @click="addTask"></q-btn>
     <q-list bordered class="q-mt-md">
 
-      <q-linear-progress :value="completedTasksPercentage" color="primary" class="q-mb-md"></q-linear-progress>
+      <q-linear-progress stripe size="10px" :value="completedTasksPercentage" color="primary" class="q-mb-md"></q-linear-progress>
       <div class="text-completed-tasks">{{ completedTasksCount }}/{{ tasks.length }} tâches complétées</div>
 
       <q-item v-for="(task, index) in tasks" :key="index">
