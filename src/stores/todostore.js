@@ -16,7 +16,19 @@ export const useTodoStore = defineStore('Todos', {
     AddTodo() {
       this.Todos.push()
     },
-    UpdateTodo(id, name, descr, date, categorie) {},
+    RemoveTodo(id) {
+      this.Todos = this.Todos.filter((todo) => todo.id !== id)
+    },
+    UpdateTodo(id, name, descr, date, categorie) {
+      this.Todos.map((todo) => {
+        if (todo.id === id) {
+          todo.name = name
+          todo.descr = descr
+          todo.date = date
+          todo.categorie = categorie
+        }
+      })
+    },
     CheckTodo(id) {
       this.Todos.map((todo) => {
         if (todo.id === id) {
