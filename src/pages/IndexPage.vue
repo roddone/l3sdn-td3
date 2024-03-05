@@ -5,7 +5,7 @@
     <q-input v-model="newTask.details" label="Détails de la tâche" filled dense></q-input>
     <q-toggle v-model="newTask.completed" label="Terminée" dense></q-toggle> 
     <br>
-    <q-btn class="q-mt-md" color="primary" label="Ajouter" @click="addTask"></q-btn>
+    <q-btn class="q-mt-md" color="primary" label="Ajouter" :disable="!isInputValid" @click="addTask" ></q-btn> 
     <q-list bordered class="q-mt-md">
 
       <q-linear-progress stripe size="10px" :value="completedTasksPercentage" color="primary" class="q-mb-md"></q-linear-progress>
@@ -13,7 +13,7 @@
 
       <q-item v-for="(task, index) in tasks" :key="index">
         <q-item-section>
-          <q-checkbox v-model="task.completed" color="positive"></q-checkbox>
+          <q-checkbox v-model="task.completed" color="positive" class="q-checkbox-text"> Tâche {{ index + 1 }} terminée </q-checkbox>
         </q-item-section>
         <q-item-section>
           <div>
@@ -71,6 +71,10 @@ const completedTasksCount = computed(() => {
 const completedTasksPercentage = computed(() => {
   return (completedTasksCount.value / tasks.value.length)
 })
+
+const isInputValid = computed(() => {
+  return newTask.value.name.trim() !== '' && newTask.value.details.trim() !== ''
+})
 </script>
 
 <style>
@@ -82,5 +86,9 @@ const completedTasksPercentage = computed(() => {
 .text-completed-tasks {
   text-align: center;
   margin-bottom: 10px;
+}
+
+.q-checkbox-text {
+  margin-left: 5px;
 }
 </style>
