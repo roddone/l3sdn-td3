@@ -1,3 +1,22 @@
+<script setup>
+import { ref } from 'vue'
+import { useTodoStore } from '../stores/list.js'
+const task = ref('')
+const desc = ref('')
+const date = ref('')
+
+const store = useTodoStore()
+
+const addTask = () => {
+  store.addTask({ task: task.value, desc: desc.value, date: date.value })
+  task.value = ''
+  desc.value = ''
+  date.value = ''
+}
+
+const tasks = store.tasks
+</script>
+
 <template>
   <q-layout view="lHh Lpr lFf">
     <q-header elevated class="bg-accent shadow-2">
@@ -22,21 +41,21 @@
         >
           <template v-slot:append>
             <q-icon name="event" class="cursor-pointer">
-              <q-popup-proxy>
+              <q-popup-proxy ref="qDateProxy">
                 <q-date v-model="date"></q-date>
               </q-popup-proxy>
             </q-icon>
           </template>
         </q-input>
-        <q-btn label="Ajouter" type="submit" color="accent" />
+        <q-btn label="Ajouter" color="accent" @click="addTask" />
       </div>
+    </div>
+    <div>
+      <ul>
+        <li v-for="(item, index) in tasks" :key="index">
+          {{ item.task }} - {{ item.desc }} - {{ item.date }}
+        </li>
+      </ul>
     </div>
   </q-layout>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-const task = ref('') // Pour les champs de tâche et descriptionconst task = ref('') // Création d'une variable réactive pour la nouvelle tâche
-const desc = ref('') // Création d'une variable réactive pour la description
-const date = ref('') // Pour le champ de sélection de date
-</script>
