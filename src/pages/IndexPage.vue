@@ -1,10 +1,11 @@
 <template>
   <div class="q-pa-md">
-    <q-input v-model="newTask.name" placeholder="Nom de la tâche..."></q-input>
-    <q-input v-model="newTask.details" placeholder="Détails de la tâche..."></q-input>
-    <q-toggle v-model="newTask.completed" label="Terminée"></q-toggle> <!-- Nouveau champ pour choisir l'état de la tâche -->
+    <q-input v-model="newTask.name" label="Nom de la tâche" filled dense></q-input>
+    <q-input v-model="newTask.details" label="Détails de la tâche" filled dense></q-input>
+    <q-toggle v-model="newTask.completed" label="Terminée" dense></q-toggle> 
     <br>
     <q-btn color="primary" label="Ajouter" @click="addTask"></q-btn>
+    <br>
     <q-list bordered>
       <q-item v-for="(task, index) in tasks" :key="index">
         <q-item-section>
@@ -13,10 +14,10 @@
         <q-item-section>
           <div>
             <q-item-label>{{ task.name }}</q-item-label>
-            <span v-if="task.completed" style="color: green;">Terminée</span>
-            <span v-else style="color: red;">Non terminée</span>
+            <q-badge v-if="task.completed" color="green" label="Terminée"></q-badge>
+            <q-badge v-else color="red" label="Non terminée"></q-badge>
           </div>
-          <q-banner class="bg-primary text-white" color="primary" label="Détails" > Détails </q-banner>
+          <q-banner class="bg-primary text-white" color="primary" label="Détails" clickable @click="toggleDetails(index)"> Détails </q-banner>
           <q-collapse v-model="task.showDetails">
             <q-card>
               <q-card-section>
@@ -48,11 +49,14 @@ const addTask = () => {
     tasks.value.push({
       name: newTask.value.name,
       details: newTask.value.details,
-      completed: newTask.value.completed, // Utiliser la valeur sélectionnée pour l'état de la tâche
-      showDetails: true
+      completed: newTask.value.completed, 
     })
-    newTask.value = { name: '', details: '', completed: false } // Réinitialiser les champs après l'ajout
+    newTask.value = { name: '', details: '', completed: false } 
   }
+}
+
+const toggleDetails = (index) => {
+  tasks.value[index].showDetails = !tasks.value[index].showDetails
 }
 
 const deleteTask = (index) => {
