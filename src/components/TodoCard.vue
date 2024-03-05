@@ -7,14 +7,18 @@
 
       <q-separator />
 
-      <q-card-actions vertical>
-        <q-btn flat>Action 2</q-btn>
-      </q-card-actions>
+    <div class="q-pa-md">
+        <q-checkbox v-model="value" />
+    </div>
     </q-card>
 </template>
 
 
 <script setup>
+
+import { ref } from 'vue'
+
+const value = ref(false)
 
 
 
