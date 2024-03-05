@@ -37,7 +37,7 @@
 <script setup>
 import { ref } from 'vue'
 
-const newTask = ref({ name: '', details: '', completed: false }) // Initialiser l'état de la tâche à false
+const newTask = ref({ name: '', details: '', completed: false }) 
 const tasks = ref([
   { name: 'Tâche 1', details: 'Détails de la tâche 1', completed: true, showDetails: true },
   { name: 'Tâche 2', details: 'Détails de la tâche 2', completed: false, showDetails: true },
