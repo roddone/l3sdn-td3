@@ -1,24 +1,29 @@
 <template>
   <q-page class="">
     <div class="flex">
-      <PopupTask v-if="modal.show" :index="modal.index" :title="modal.title" :description="modal.description" :done="modal.done" @close="modal.show = false" @update="update"  />
+      <PopupTask
+        v-if="modal.show"
+        :index="modal.index"
+        :title="modal.title"
+        :description="modal.description"
+        :done="modal.done"
+        @close="modal.show = false"
+        @update="update"
+      />
       <h1>Todo List</h1>
-      <q-input v-model="task" placeholder="Ajouter une tache"></q-input>
+      <q-input v-model="task" placeholder="Ajouter une tâche"></q-input>
       <q-input
-      v-model="description" placeholder="Ajouter une description"
-      filled
-      type="textarea"
+        v-model="description"
+        placeholder="Ajouter une description"
+        filled
+        type="textarea"
       ></q-input>
-      <q-btn label="Ajouter une tache" @click="addTask"></q-btn>
+      <q-btn label="Ajouter une tâche" @click="addTask"></q-btn>
       <ul>
         <li v-for="(task, index) in tasks" :key="index">
           <q-checkbox v-model="task.done" @change="toggleDone(index)"></q-checkbox>
-          <span  :class="{ 'task-done': task.done }" @click="openTask(index)">{{ task.title }}</span>
-          <q-btn
-            flat
-            dense
-            icon="close"
-           class="pl-5" @click="removeTask(index)"></q-btn>
+          <span :class="{ 'task-done': task.done }" @click="openTask(index)">{{ task.title }}</span>
+          <q-btn flat dense icon="close" class="pl-5" @click="removeTask(index)"></q-btn>
         </li>
       </ul>
     </div>
@@ -49,7 +54,7 @@ const addTask = () => {
     tasksStore.addTask({
       title: task.value.trim(),
       description: description.value.trim(),
-      done: false,
+      done: false
     })
     task.value = ''
     description.value = ''
