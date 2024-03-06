@@ -7,19 +7,19 @@ export const useTodoStore = defineStore('todos', {
         id: 1,
         description: 'Learn Vue',
         state: 'Done',
-        date: '2022-01-01',
+        date: '2022-01-01'
       },
       {
         id: 2,
         description: 'Learn Quasar',
         state: 'Done',
-        date: '2022-01-01',
+        date: '2022-01-01'
       },
       {
         id: 3,
         description: 'Learn Js',
         state: 'Done',
-        date: '2022-01-01',
+        date: '2022-01-01'
       }
     ]
   }),
@@ -31,7 +31,10 @@ export const useTodoStore = defineStore('todos', {
       this.todoList.push(todo)
     },
     deleteTodo(id) {
-      this.todoList = this.todoList.filter(todo => todo.id !== id)
+      this.todoList = this.todoList.filter((todo) => todo.id !== id)
+    },
+    getLastId() {
+      return this.todoList[this.todoList.length - 1]['id']
     }
   }
 })
