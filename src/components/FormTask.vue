@@ -1,5 +1,6 @@
 <template>
   <div class="container-form">
+    <h3 style="text-align: center">New Task</h3>
     <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
       <q-input
         v-model="title"
@@ -24,7 +25,7 @@
       </div>
 
       <div class="div">
-        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn label="Ajouter" type="submit" color="primary" />
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </q-form>
@@ -42,6 +43,7 @@ export default {
     const date = ref('2019/02/01')
     const title = ref(null)
     const description = ref(null)
+    const id = ref(1)
 
     return {
       title,
@@ -50,9 +52,11 @@ export default {
 
       onSubmit() {
         useListStore().addList({
+          id : id.value++,
           title: title.value,
           description: description.value,
-          date: date.value
+          date: date.value,
+          active: false
         })
         title.value = null
         description.value = null

@@ -6,18 +6,6 @@ export const useListStore = defineStore('list', {
     list: ref([])
   }),
   getters: {
-    listLength() {
-      return this.list.length
-    },
-    listState() {
-      return this.list.active
-    },
-    listTitle() {
-      return this.list.title
-    },
-    listDate() {
-      return this.list.date
-    },
     getList() {
       return this.list
     }
@@ -25,6 +13,9 @@ export const useListStore = defineStore('list', {
   actions: {
     addList(list) {
       this.list.push(list)
+    },
+    deleteList(index) {
+      this.list.splice(index, 1)
     }
   }
 })
