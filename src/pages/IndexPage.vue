@@ -10,7 +10,6 @@
     <q-list bordered class="q-mt-md">
       <q-linear-progress stripe size="10px" :value="completedTasksPercentage" color="primary" class="q-mb-md"></q-linear-progress>
       <div class="text-completed-tasks">{{ completedTasksCount }}/{{ tasks.length }} tâches complétées</div>
-
       <q-item v-for="(task, index) in tasks" :key="index">
         <q-item-section>
           <q-checkbox v-model="task.completed" color="positive" class="q-checkbox-text"> Tâche {{ index + 1 }} terminée </q-checkbox>
@@ -22,20 +21,17 @@
             <q-badge v-else color="red" label="Non terminée"></q-badge>
           </div>
           <q-banner class="bg-primary text-white" color="primary" label="Détails" clickable > Détails </q-banner>
-          <q-collapse v-model="task.showDetails">
             <q-card>
               <q-card-section>
                 {{ task.details }}
               </q-card-section>
             </q-card>
-          </q-collapse>
         </q-item-section>
         <q-item-section side>
           <q-btn color="deep-orange" glossy icon="delete" @click="showDeleteDialog(index)"></q-btn>
         </q-item-section>
       </q-item>
     </q-list>
-
     <q-dialog v-model="showDeleteConfirmation" persistent>
       <q-card>
         <q-card-section>
