@@ -3,7 +3,7 @@
     <q-form v-model="formValid">
       <q-input v-model="newTask.name" label="Nom de la tâche" filled dense :rules="[val => !!val || 'Ce champ est requis']"></q-input>
       <q-input v-model="newTask.details" label="Détails de la tâche" filled dense :rules="[val => !!val || 'Ce champ est requis']"></q-input>
-      <q-toggle v-model="newTask.completed" label="Terminée" dense></q-toggle> 
+      <q-toggle v-model="newTask.completed" label="Terminée" dense></q-toggle> <br>
       <q-btn class="q-mt-md" color="primary" label="Ajouter" :disable="!isInputValid" @click="addTask"></q-btn> 
     </q-form>
 
