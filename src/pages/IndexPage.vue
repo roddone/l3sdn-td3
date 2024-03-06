@@ -1,11 +1,12 @@
 <template>
   <div class="q-pa-md">
-    <q-form v-model="formValid" >
+    <q-form v-model="formValid">
       <q-input v-model="newTask.name" label="Nom de la tâche" filled dense :rules="[val => !!val || 'Ce champ est requis']"></q-input>
       <q-input v-model="newTask.details" label="Détails de la tâche" filled dense :rules="[val => !!val || 'Ce champ est requis']"></q-input>
       <q-toggle v-model="newTask.completed" label="Terminée" dense></q-toggle> 
-      <q-btn class="q-mt-md" color="primary" label="Ajouter" :disable="!isInputValid" @click="addTask" ></q-btn> 
+      <q-btn class="q-mt-md" color="primary" label="Ajouter" :disable="!isInputValid" @click="addTask"></q-btn> 
     </q-form>
+
     <q-list bordered class="q-mt-md">
       <q-linear-progress stripe size="10px" :value="completedTasksPercentage" color="primary" class="q-mb-md"></q-linear-progress>
       <div class="text-completed-tasks">{{ completedTasksCount }}/{{ tasks.length }} tâches complétées</div>
@@ -30,10 +31,22 @@
           </q-collapse>
         </q-item-section>
         <q-item-section side>
-          <q-btn color="deep-orange" glossy icon="delete" @click="deleteTask(index)"></q-btn>
+          <q-btn color="deep-orange" glossy icon="delete" @click="showDeleteDialog(index)"></q-btn>
         </q-item-section>
       </q-item>
     </q-list>
+
+    <q-dialog v-model="showDeleteConfirmation" persistent>
+      <q-card>
+        <q-card-section>
+          Êtes-vous sûr de vouloir supprimer cette tâche ?
+        </q-card-section>
+        <q-card-actions align="right">
+          <q-btn color="primary" label="Annuler" @click="cancelDelete"></q-btn>
+          <q-btn color="negative" label="Supprimer" @click="deleteConfirmed"></q-btn>
+        </q-card-actions>
+      </q-card>
+    </q-dialog>
   </div>
 </template>
 
@@ -47,6 +60,10 @@ const tasks = ref([
   { name: 'Tâche 3', details: 'Détails de la tâche 3', completed: false, showDetails: true }
 ])
 
+const formValid = ref(false)
+const showDeleteConfirmation = ref(false)
+let deleteIndex = null
+
 const addTask = () => {
   if (newTask.value.name.trim() !== '' || newTask.value.details.trim() !== '') {
     tasks.value.push({
@@ -56,11 +73,26 @@ const addTask = () => {
       showDetails: true
     })
     newTask.value = { name: '', details: '', completed: false } 
+    formValid.value = false
   }
 }
 
-const deleteTask = (index) => {
-  tasks.value.splice(index, 1)
+const showDeleteDialog = (index) => {
+  showDeleteConfirmation.value = true
+  deleteIndex = index
+}
+
+const cancelDelete = () => {
+  showDeleteConfirmation.value = false
+  deleteIndex = null
+}
+
+const deleteConfirmed = () => {
+  if (deleteIndex !== null) {
+    tasks.value.splice(deleteIndex, 1)
+    deleteIndex = null
+    showDeleteConfirmation.value = false
+  }
 }
 
 const completedTasksCount = computed(() => {
