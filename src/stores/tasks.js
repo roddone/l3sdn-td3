@@ -5,11 +5,13 @@ export const useTasks = defineStore('tasks', {
     tasks: []
   }),
   actions: {
-    addTask({ title, description, done }) {
-      this.tasks.push({ title, description, done })
+    addTask({ title, description, date, done }) {
+      this.tasks.push({ title, description, date, done })
+      console.log(this.tasks)
       this.saveTasksToLocalStorage()
     },
-    removeTask(index) {
+    removeTask(task) {
+      const index = this.tasks.indexOf(task)
       this.tasks.splice(index, 1)
       this.saveTasksToLocalStorage()
     },
@@ -22,13 +24,8 @@ export const useTasks = defineStore('tasks', {
         this.tasks = JSON.parse(tasks)
       }
     },
-    toggleDone(index) {
-      this.saveTasksToLocalStorage()
-    },
-    updateTask(index, { title, description, done }) {
-      console.log(title, description, done)
-      this.tasks[index] = { title, description, done }
-      console.log('works')
+    updateTask(index, { title, description, date, done }) {
+      this.tasks[index] = { title, description, date, done }
       this.saveTasksToLocalStorage()
     }
   }
