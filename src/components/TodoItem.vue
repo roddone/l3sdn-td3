@@ -1,13 +1,11 @@
 <template>
   <div class="flex justify-between items-center p-2 bg-gray-100 rounded-lg">
-    <div>
-      <div :class="{ 'line-through': todo.completed }">
-        {{ todo.text }}
-      </div>
-      <div class="text-xs text-gray-600">
-        Créé le: {{ todo.created }}
-        <span v-if="todo.due">| À faire avant: {{ todo.due }}</span>
-      </div>
+    <div :class="{ 'line-through': todo.completed }">
+      {{ todo.text }}
+    </div>
+    <div class="text-xs text-gray-600">
+      Créé le: {{ todo.created }}
+      <span v-if="todo.due">| À faire avant: {{ todo.due }}</span>
     </div>
     <div>
       <q-checkbox
@@ -21,22 +19,21 @@
 </template>
 
 <script setup>
-import { defineProps, defineEmits } from 'vue'
+import { defineProps } from 'vue'
+import { useTodosStore } from 'stores/todos'
 
-const props = defineProps({
-  todo: {
-    type: Object,
-    required: true
-  }
+const { index, todo } = defineProps({
+  index: Number,
+  todo: Object
 })
 
-const emits = defineEmits(['remove', 'toggle'])
+const store = useTodosStore()
 
 function onRemove() {
-  emits('remove')
+  store.removeTodo(index)
 }
 
-function onToggleCompletion(completed) {
-  emits('toggle', { ...props.todo, completed })
+function onToggleCompletion() {
+  store.toggleTodoCompletion(index)
 }
 </script>
