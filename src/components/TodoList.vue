@@ -11,6 +11,13 @@
         class="q-mb-md"
       />
       <q-input v-model="newTask.date" outlined type="date" mask="YYYY-MM-DD" class="q-mb-md" />
+      <q-select
+        v-model="newTask.priority"
+        outlined
+        label="Priorité"
+        class="q-mb-md"
+        :options="priorityOptions"
+      />
       <q-btn color="primary" label="Ajouter" class="full-width" @click="addTask" />
     </div>
 
@@ -19,6 +26,7 @@
         <q-item
           v-for="(task, index) in tasks"
           :key="index"
+          :class="getPriorityClass(task.priority)"
           class="q-my-md q-px-md task-item"
           clickable
         >
@@ -26,6 +34,7 @@
             <q-item-label>{{ task.name }}</q-item-label>
             <q-item-label caption>{{ task.description }}</q-item-label>
             <q-item-label caption>{{ task.date }}</q-item-label>
+            <q-item-label caption class="text-caption">{{ task.priority }}</q-item-label>
           </q-item-section>
           <q-item-section side top>
             <q-btn
@@ -51,29 +60,46 @@ export default {
       newTask: {
         name: '',
         description: '',
-        date: ''
+        date: '',
+        priority: 'medium'
       },
-      tasks: []
+      tasks: [],
+      priorityOptions: [
+        { label: 'Tranquille', value: 'trkl' },
+        { label: 'Moyenne', value: 'medium' },
+        { label: 'Importante', value: 'important' }
+      ]
     }
   },
   methods: {
     addTask() {
-      if (!this.newTask.name || !this.newTask.date) {
+      if (!this.newTask.name || !this.newTask.date || !this.newTask.priority) {
         this.$q.notify({
           color: 'red-5',
           textColor: 'white',
           icon: 'warning',
-          message: 'La tâche et la date sont obligatoires'
+          message: 'Tous les champs sont obligatoires'
         })
         return
       }
       this.tasks.push({ ...this.newTask })
+      this.resetNewTask()
+    },
+    resetNewTask() {
       this.newTask.name = ''
       this.newTask.description = ''
       this.newTask.date = ''
+      this.newTask.priority = 'medium'
     },
     removeTask(index) {
       this.tasks.splice(index, 1)
+    },
+    getPriorityClass(priority) {
+      return {
+        'bg-important': priority === 'important',
+        'bg-medium': priority === 'medium',
+        'bg-trkl': priority === 'trkl'
+      }
     }
   }
 }
@@ -114,17 +140,28 @@ export default {
 
 .text-h5 {
   font-weight: 700;
-  color: #007bff; /* Primary color */
+  color: #007bff;
 }
 
 .q-btn.full-width {
   margin-top: 24px;
 }
 
-/* Vous pouvez ajouter des media queries pour rendre la mise en page réactive */
 @media (max-width: 768px) {
   .todo-container {
     margin: 20px;
   }
+}
+
+.bg-important {
+  background-color: #ff6b6b;
+}
+
+.bg-medium {
+  background-color: #ffe66d;
+}
+
+.bg-trkl {
+  background-color: #48dbfb;
 }
 </style>
