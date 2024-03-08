@@ -37,9 +37,6 @@
         <div class="todo-form__buttons">
           <q-btn label="Submit" type="submit" color="primary" class="todo-form__button" />
           <q-btn label="Reset" type="reset" color="primary" flat class="todo-form__button" />
-          <router-link to="/" class="q-btn todo-form__button" :class="{ primary: true, flat: true }"
-            >Go to Home</router-link
-          >
         </div>
       </q-form>
     </div>
@@ -84,13 +81,6 @@ function onSubmit() {
   todos.addTodo(todo)
   fetchDate()
 
-  $q.notify({
-    color: 'green-4',
-    textColor: 'white',
-    icon: 'cloud_done',
-    message: 'Todo added',
-    caption: description.value
-  })
 }
 
 function onReset() {

@@ -7,6 +7,8 @@
       :columns="columns"
       row-key="id"
       selection="multiple"
+      no-data-label="No todos"
+      :hide-selected-banner="true"
     />
   </div>
   <div class="q-pa-md q-gutter-sm">
@@ -40,7 +42,6 @@
 </template>
 
 <script setup>
-import { useQuasar } from 'quasar'
 import { ref } from 'vue'
 import { useTodoStore } from 'src/stores/todoStore'
 

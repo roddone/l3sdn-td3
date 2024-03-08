@@ -32,15 +32,18 @@ export const useTodoStore = defineStore('todos', {
     },
     deleteTodos(list) {
       for (let task in list){
-        console.log('huuuuh')
-        this.todoList = this.todoList.filter((todo) => todo.id !== task.id)
+        this.todoList.splice(this.todoList.indexOf(list[task]), 1)
       }
     },
     changeTodoStatus(list, status){
       for (let todo of list) todo.state = status 
     },
     getLastId() {
-      return this.todoList[this.todoList.length - 1]['id']
+      if (this.todoList.length != 0){
+        return this.todoList[this.todoList.length - 1]['id']
+      } else {
+        return 0
+      }
     }
   }
 })

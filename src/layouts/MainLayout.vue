@@ -11,12 +11,15 @@
           @click="toggleLeftDrawer"
         />
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
+        <q-toolbar-title> Galaxy </q-toolbar-title>
 
         <div>Quasar v{{ $q.version }}</div>
       </q-toolbar>
     </q-header>
 
+    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
+      <add-todo/>
+    </q-drawer>
 
     <q-page-container>
       <router-view />
@@ -26,7 +29,12 @@
 
 <script setup>
 import { ref } from 'vue'
+import AddTodo from 'src/pages/AddTodo.vue'
 
+const leftDrawerOpen = ref(false)
 
+function toggleLeftDrawer() {
+  leftDrawerOpen.value = !leftDrawerOpen.value
+}
 
 </script>
