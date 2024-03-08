@@ -1,51 +1,33 @@
 <template>
   <div class="q-pa-md">
-    <q-table title="Liste des Tâches" :rows="todos" :columns="columns" row-key="id">
-      <template v-slot:body="props">
-        <q-tr :props="props">
-          <q-td key="title" :props="props">{{ props.row.title }}</q-td>
-          <q-td key="description" :props="props">{{ props.row.description }}</q-td>
-          <q-td key="category" :props="props">{{ props.row.category }}</q-td>
-          <q-td key="dueDate" :props="props">{{ props.row.dueDate || 'Aucune' }}</q-td>
-          <q-td key="action" :props="props">
-            <q-btn dense flat color="negative" icon="delete" @click="removeTodo(props.row.id)" />
-          </q-td>
-        </q-tr>
-      </template>
-    </q-table>
+    <q-list bordered separator>
+      <todo-item
+        v-for="todo in todos"
+        :key="todo.id"
+        :todo="todo"
+        @remove-todo="removeTodo"
+        @toggle-completion="toggleCompletion"
+      />
+    </q-list>
   </div>
 </template>
 
 <script>
-import { defineComponent } from 'vue'
+import TodoItem from './TodoItem.vue'
 
-export default defineComponent({
-  name: 'TodoList',
+export default {
+  components: { TodoItem },
   props: {
     todos: Array
   },
-  emits: ['remove-todo'],
-  data() {
-    return {
-      columns: [
-        { name: 'title', align: 'left', label: 'Titre', field: (row) => row.title, sortable: true },
-        {
-          name: 'description',
-          align: 'left',
-          label: 'Description',
-          field: (row) => row.description,
-          sortable: true
-        },
-        { name: 'category', label: 'Catégorie', field: (row) => row.category, sortable: true },
-        { name: 'dueDate', label: "Date d'Échéance", field: (row) => row.dueDate, sortable: true },
-        { name: 'action', label: 'Action', field: (row) => row.id, sortable: false }
-      ]
-    }
-  },
+  emits: ['remove-todo', 'toggle-completion'],
   methods: {
     removeTodo(id) {
       this.$emit('remove-todo', id)
+    },
+    toggleCompletion(id) {
+      this.$emit('toggle-completion', id)
     }
   }
-})
+}
 </script>

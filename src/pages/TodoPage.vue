@@ -2,7 +2,7 @@
   <q-page class="flex flex-center">
     <category-manager :categories="categories" @update:categories="updateCategories" />
     <add-todo :categories="categories" @add-todo="addTodo" />
-    <todo-list :todos="todos" @remove-todo="removeTodo" />
+    <todo-list :todos="todos" @remove-todo="removeTodo" @toggle-completion="toggleCompletion" />
   </q-page>
 </template>
 
@@ -18,19 +18,26 @@ export default {
     const todos = ref([])
     const categories = ref(['Travail', 'Personnel', 'Urgent', 'Autre'])
 
-    function addTodo(newTodo) {
-      todos.value.push({ ...newTodo, id: Date.now() })
+    const addTodo = (newTodo) => {
+      todos.value.push({ ...newTodo, id: Date.now(), completed: false })
     }
 
-    function removeTodo(todoId) {
+    const removeTodo = (todoId) => {
       todos.value = todos.value.filter((todo) => todo.id !== todoId)
     }
 
-    function updateCategories(newCategory) {
+    const toggleCompletion = (todoId) => {
+      const index = todos.value.findIndex((t) => t.id === todoId)
+      if (index !== -1) {
+        todos.value[index].completed = !todos.value[index].completed
+      }
+    }
+
+    const updateCategories = (newCategory) => {
       categories.value.push(newCategory)
     }
 
-    return { todos, categories, addTodo, removeTodo, updateCategories }
+    return { todos, categories, addTodo, removeTodo, toggleCompletion, updateCategories }
   }
 }
 </script>

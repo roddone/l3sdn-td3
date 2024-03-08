@@ -35,3 +35,13 @@ export default {
   }
 }
 </script>
+<style>
+.add-todo {
+  max-width: 600px;
+  margin: auto;
+}
+
+.add-todo .q-btn {
+  margin-top: 10px;
+}
+</style>

@@ -27,3 +27,15 @@ export default {
   }
 }
 </script>
+<style>
+.category-manager {
+  max-width: 600px;
+  margin: auto;
+  margin-bottom: 20px;
+}
+
+.category-manager .q-input,
+.category-manager .q-btn {
+  margin-top: 10px;
+}
+</style>
