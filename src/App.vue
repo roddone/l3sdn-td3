@@ -1,8 +1,7 @@
 <template>
   <div>
-    <TaskCreate />
-    <CategoryManagement />
-    <!-- Ajoutez d'autres composants nécessaires -->
+    <TaskCreate :categories="categories" />
+    <CategoryManagement :categories="categories" />
   </div>
 </template>
 
@@ -14,7 +13,11 @@ export default {
   components: {
     TaskCreate,
     CategoryManagement
-    // Ajoutez d'autres composants nécessaires
+  },
+  data() {
+    return {
+      categories: []
+    }
   }
 }
 </script>
