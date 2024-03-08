@@ -6,8 +6,8 @@
           flat
           dense
           round
-          icon="menu"
-          aria-label="Menu"
+          icon="add_circle_outline"
+          aria-label="Add"
           @click="toggleLeftDrawer"
         />
 
