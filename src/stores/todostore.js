@@ -13,8 +13,8 @@ export const useTodoStore = defineStore('Todos', {
     }
   },
   actions: {
-    AddTodo() {
-      this.Todos.push()
+    AddTodo(todo) {
+      this.Todos.push(todo)
     },
     RemoveTodo(id) {
       this.Todos = this.Todos.filter((todo) => todo.id !== id)
