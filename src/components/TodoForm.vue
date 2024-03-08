@@ -76,8 +76,9 @@ const onSubmit = () => {
   } else {
     store.addTodo({
       name: name.value,
-      desc: desc.value,
+      descr: descr.value,
       date: date.value,
+      categorie: categorie.value,
       checked: false
     })
 
