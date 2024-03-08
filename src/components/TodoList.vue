@@ -2,9 +2,16 @@
   <div class="todo-container">
     <div class="q-pa-md">
       <div class="text-h5 q-mb-md">Ma To-Do List</div>
-      <q-input v-model="newTask.name" outlined label="Ajouter une tâche" class="q-mb-md" />
+      <q-input v-model="newTask.name" outlined label="Nom de la tâche" class="q-mb-md" />
+      <q-input
+        v-model="newTask.description"
+        type="textarea"
+        outlined
+        label="Description de la tâche"
+        class="q-mb-md"
+      />
       <q-input v-model="newTask.date" outlined type="date" mask="YYYY-MM-DD" class="q-mb-md" />
-      <q-btn color="primary" label="Ajouter" class="full-width q-mb-md" @click="addTask" />
+      <q-btn color="primary" label="Ajouter" class="full-width" @click="addTask" />
     </div>
 
     <div v-if="tasks.length > 0" class="q-pa-md task-list">
@@ -12,12 +19,12 @@
         <q-item
           v-for="(task, index) in tasks"
           :key="index"
-          v-ripple
           class="q-my-md q-px-md task-item"
           clickable
         >
           <q-item-section>
             <q-item-label>{{ task.name }}</q-item-label>
+            <q-item-label caption>{{ task.description }}</q-item-label>
             <q-item-label caption>{{ task.date }}</q-item-label>
           </q-item-section>
           <q-item-section side top>
@@ -43,10 +50,10 @@ export default {
     return {
       newTask: {
         name: '',
+        description: '',
         date: ''
       },
-      tasks: [],
-      dateBlurred: false
+      tasks: []
     }
   },
   methods: {
@@ -62,20 +69,11 @@ export default {
       }
       this.tasks.push({ ...this.newTask })
       this.newTask.name = ''
+      this.newTask.description = ''
       this.newTask.date = ''
-      this.dateBlurred = false
-      this.$refs.dateInput.resetValidation()
     },
     removeTask(index) {
       this.tasks.splice(index, 1)
-    },
-    validateDate() {
-      this.dateBlurred = true
-    }
-  },
-  watch: {
-    'newTask.date'() {
-      this.dateBlurred = false
     }
   }
 }
