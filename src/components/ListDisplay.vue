@@ -20,11 +20,11 @@
             unchecked-icon="fa-regular fa-circle"
             :class="{ checked: list.active }"
           >
-          <h6> {{ list.title }} </h6>
+            <h6>{{ list.title }}</h6>
           </q-checkbox>
           <div class="end-row">
             {{ list.date }}
-            <q-btn round icon="edit" @click="goToSeePage(index + 1)"></q-btn>
+            <q-btn round icon="edit" @click="selectTask(list)"></q-btn>
           </div>
         </div>
       </q-slide-item>
@@ -37,23 +37,51 @@
     </div>
     <h6>slide right to delete</h6>
   </div>
+
+  <q-dialog v-model="prompt" persistent>
+    <q-card style="width: 30%">
+      <q-card-section>
+        <q-input v-model="taskUpdate.title" label="title" dense autofocus @keyup.enter="prompt = false">
+        </q-input>
+      </q-card-section>
+
+      <q-card-section class="q-pt-none">
+        <q-input v-model="taskUpdate.description" label="decription" autofocus @keyup.enter="prompt = false" />
+      </q-card-section>
+      <q-card-section>
+        <q-date v-model="taskUpdate.date" />
+      </q-card-section>
+
+      <q-card-actions align="right" class="text-primary">
+        <q-btn v-close-popup flat label="Cancel" />
+        <q-btn v-close-popup flat label="Modify" @click="onSubmit()" />
+      </q-card-actions>
+    </q-card>
+  </q-dialog>
 </template>
 
 <script setup>
 import { useListStore } from 'src/stores/list-store'
-import { useRouter } from 'vue-router'
+import { ref } from 'vue'
 
-const router = useRouter()
+const listStore = useListStore().getList
+const prompt = ref(false)
+let taskUpdate = {}
 
-const goToSeePage = (id) => {
-  router.replace({ path: `/view/${id}` })
+
+const selectTask = (task) => {
+  taskUpdate = task
+  prompt.value = true
 }
 
 const deleteTask = (id) => {
   useListStore().deleteList(id)
+  reset()
 }
 
-const listStore = useListStore().getList
+const onSubmit = () => {
+  prompt.value = false
+}
 </script>
 
 <style scoped>

@@ -16,6 +16,9 @@ export const useListStore = defineStore('list', {
     },
     deleteList(index) {
       this.list.splice(index, 1)
+    },
+    updateList({ index, list }) {
+      this.list[index] = list
     }
   }
 })

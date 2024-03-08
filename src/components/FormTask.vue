@@ -29,8 +29,6 @@
         <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
       </div>
     </q-form>
-
-    <p>{{ date }}</p>
   </div>
 </template>
 
@@ -40,7 +38,8 @@ import { useListStore } from 'src/stores/list-store'
 
 export default {
   setup() {
-    const date = ref('2019/02/01')
+
+    const date = ref(false)
     const title = ref(null)
     const description = ref(null)
     const id = ref(1)
@@ -52,7 +51,7 @@ export default {
 
       onSubmit() {
         useListStore().addList({
-          id : id.value++,
+          id: id.value++,
           title: title.value,
           description: description.value,
           date: date.value,
