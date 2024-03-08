@@ -16,11 +16,13 @@
         lazy-rules
         :rules="[(val) => (val !== null && val !== '') || 'Please type a description']"
       />
-      <div class="btn">
-        <q-btn label="Submit" type="submit" color="primary" />
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-      </div>
     </q-form>
+  </div>
+
+  <div class="q-pa-md" style="max-width: 300px">
+    <div class="q-gutter-md">
+      <q-select v-model="model" :options="options" label="Standard" />
+    </div>
   </div>
 
   <div class="q-pa-md">
@@ -41,10 +43,17 @@
       </q-popup-proxy>
     </q-btn>
   </div>
+
+
+  <div class="btn">
+        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+      </div>
 </template>
 
 <script setup>
-import { useTodoStore } from '@/stores/todostore.js'
+
+import { useTodoStore } from '../stores/todostore.js'
 
 import { ref } from 'vue'
 import { useQuasar } from 'quasar'
@@ -56,6 +65,10 @@ const desc = ref(null)
 const accept = ref(false)
 const date = ref('2019/03/01')
 const proxyDate = ref('2019/03/01')
+
+const model = ref(null)
+const options = ['Homework', 'Personal Project','Hometask']
+
 
 const updateProxy = () => {
   proxyDate.value = date.value
