@@ -1,11 +1,11 @@
 <template>
-  <div class="flex justify-between items-center p-2 bg-gray-100 rounded-lg">
-    <div :class="{ 'line-through': todo.completed }">
+  <div class="flex justify-between items-center p-4 bg-white rounded-lg shadow-md">
+    <div :class="{ 'text-grey-500': todo.completed }">
       {{ todo.text }}
     </div>
-    <div class="text-xs text-gray-600">
-      Créé le: {{ todo.created }}
-      <span v-if="todo.due">| À faire avant: {{ todo.due }}</span>
+    <div class="text-xs text-grey-400">
+      Created on: {{ todo.created }}
+      <span v-if="todo.due">| Due by: {{ todo.due }}</span>
     </div>
     <div>
       <q-checkbox
@@ -13,7 +13,7 @@
         class="q-mr-md"
         @update:model-value="onToggleCompletion"
       />
-      <q-btn icon="delete" flat @click="onRemove" />
+      <q-btn icon="delete" flat color="negative" @click="onRemove" />
     </div>
   </div>
 </template>
