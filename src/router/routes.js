@@ -1,15 +1,14 @@
-
 const routes = [
   {
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
-      { path: '', component: () => import('pages/IndexPage.vue') }
+    // Route par défaut vers TodoPage.vue
+
+      { path: '', component: () => import('pages/TodoPage.vue') }
     ]
   },
-
-  // Always leave this as last one,
-  // but you can also remove it
+  // ... autres routes
   {
     path: '/:catchAll(.*)*',
     component: () => import('pages/ErrorNotFound.vue')
