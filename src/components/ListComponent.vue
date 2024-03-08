@@ -26,9 +26,17 @@
                             >
                                 {{ task.categorie.label }}
                             </q-badge>
+                            <q-btn
+                                color="negative"
+                                label="Remove"
+                                class="q-ml-md"
+                                size="sm"
+                                @click="removeTask(task)"
+                            />
                             <q-item-label header class="text-h5">{{ task.nom }}</q-item-label>
                             <q-item-label header>{{ task.description }}</q-item-label>
                             <q-item-label caption>{{ task.deadline }} - {{ useTimeAgo(task.deadline) }}</q-item-label>
+                            <q-checkbox v-model="task.done" label="Done" />
                         </q-card-section>
                     </q-card>
                 </q-item-section>
@@ -68,4 +76,8 @@ const sortTasks = () => {
 const sortedTasks = computed(() => {
     return taskStore.tasks
 })  
+
+const removeTask = (task) => {
+    taskStore.removeTask(task)
+}
 </script>
