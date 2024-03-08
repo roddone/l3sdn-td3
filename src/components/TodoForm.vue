@@ -44,15 +44,13 @@
     </q-btn>
   </div>
 
-
   <div class="btn">
-        <q-btn label="Submit" type="submit" color="primary" />
-        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
-      </div>
+    <q-btn label="Submit" type="submit" color="primary" />
+    <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+  </div>
 </template>
 
 <script setup>
-
 import { useTodoStore } from '../stores/todostore.js'
 
 import { ref } from 'vue'
@@ -67,8 +65,7 @@ const date = ref('2019/03/01')
 const proxyDate = ref('2019/03/01')
 
 const model = ref(null)
-const options = ['Homework', 'Personal Project','Hometask']
-
+const options = ['Homework', 'Personal Project', 'Hometask']
 
 const updateProxy = () => {
   proxyDate.value = date.value
@@ -91,7 +88,7 @@ const onSubmit = () => {
       name: name.value,
       descr: descr.value,
       date: date.value,
-      categorie: categorie.value,
+      categorie: model.value,
       checked: false
     })
 
