@@ -7,8 +7,7 @@
 </template>
 
 <script>
-
-import { ref } from 'vue'
+import { ref, watch, onMounted } from 'vue'
 import AddTodo from '../components/AddTodo.vue'
 import TodoList from '../components/TodoList.vue'
 import CategoryManager from '../components/CategoryManager.vue'
@@ -18,6 +17,21 @@ export default {
   setup() {
     const todos = ref([])
     const categories = ref(['Travail', 'Personnel', 'Urgent', 'Autre'])
+
+    onMounted(() => {
+      const savedTodos = JSON.parse(localStorage.getItem('todos'))
+      if (savedTodos) {
+        todos.value = savedTodos
+      }
+    })
+
+    watch(
+      todos,
+      (newTodos) => {
+        localStorage.setItem('todos', JSON.stringify(newTodos))
+      },
+      { deep: true }
+    )
 
     const addTodo = (newTodo) => {
       todos.value.push({ ...newTodo, id: Date.now(), completed: false })
@@ -30,7 +44,8 @@ export default {
     const toggleCompletion = (todoId) => {
       const index = todos.value.findIndex((t) => t.id === todoId)
       if (index !== -1) {
-        todos.value[index].completed = !todos.value[index].completed
+        const updatedTodo = { ...todos.value[index], completed: !todos.value[index].completed }
+        todos.value[index] = updatedTodo
       }
     }
 
@@ -42,3 +57,9 @@ export default {
   }
 }
 </script>
+
+<style>
+.q-page {
+  padding: 20px;
+}
+</style>
