@@ -3,6 +3,8 @@ const routes = [
     path: '/',
     component: () => import('layouts/MainLayout.vue'),
     children: [
+    // Route par défaut vers TodoPage.vue
+
       { path: '', component: () => import('pages/TodoPage.vue') }
     ]
   },
