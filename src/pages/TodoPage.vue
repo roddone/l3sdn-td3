@@ -19,10 +19,8 @@ export default {
     const categories = ref(['Travail', 'Personnel', 'Urgent', 'Autre'])
 
     onMounted(() => {
-      const savedTodos = JSON.parse(localStorage.getItem('todos'))
-      if (savedTodos) {
-        todos.value = savedTodos
-      }
+      const savedTodos = JSON.parse(localStorage.getItem('todos')) || []
+      todos.value = savedTodos
     })
 
     watch(
@@ -44,8 +42,7 @@ export default {
     const toggleCompletion = (todoId) => {
       const index = todos.value.findIndex((t) => t.id === todoId)
       if (index !== -1) {
-        const updatedTodo = { ...todos.value[index], completed: !todos.value[index].completed }
-        todos.value[index] = updatedTodo
+        todos.value[index] = { ...todos.value[index], completed: !todos.value[index].completed }
       }
     }
 
