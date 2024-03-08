@@ -11,7 +11,12 @@
       />
       <div v-for="category in categories" :key="category" class="column">
         <h3>{{ category }}</h3>
-        <q-card v-for="todo in todosByCategory(category)" :key="todo.id" class="todo-card">
+        <q-card
+          v-for="todo in todosByCategory(category)"
+          :key="todo.id"
+          :class="{ checked: todo.checked, 'not-checked': !todo.checked }"
+          class="todo-card"
+        >
           <q-card-section>
             <h4>{{ todo.name }}</h4>
             <p>Date: {{ todo.date }}</p>
@@ -105,5 +110,13 @@ const openUpdateForm = (todo) => {
   color: #000;
   border-color: #000;
   transition: background-color 0.5s;
+}
+
+.checked {
+  background-color: lime;
+}
+
+.not-checked {
+  background-color: yellow;
 }
 </style>
