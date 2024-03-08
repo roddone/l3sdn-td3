@@ -51,21 +51,30 @@
 </template>
 
 <script setup>
+import { ref, onMounted } from 'vue'
 import { useTodoStore } from '../stores/todostore.js'
-
-import { ref } from 'vue'
 import { useQuasar } from 'quasar'
 
-const store = useTodoStore()
 const $q = useQuasar()
 const name = ref(null)
 const descr = ref(null)
 const accept = ref(false)
 const date = ref('2019/03/01')
 const proxyDate = ref('2019/03/01')
-
 const model = ref(null)
 const options = ['Homework', 'Personal Project', 'Hometask']
+const store = useTodoStore()
+
+const props = defineProps(['todo'])
+
+onMounted(() => {
+  if (props.todo) {
+    name.value = props.todo.name
+    descr.value = props.todo.descr
+    date.value = props.todo.date
+    model.value = props.todo.categorie
+  }
+})
 
 const updateProxy = () => {
   proxyDate.value = date.value
@@ -84,15 +93,19 @@ const onSubmit = () => {
       message: 'You need to accept the license and terms first'
     })
   } else {
-    store.AddTodo({
-      name: name.value,
-      descr: descr.value,
-      date: date.value,
-      categorie: model.value,
-      checked: false
-    })
-
-    console.log(store.Todos)
+    if (props.todo) {
+      store.UpdateTodo(props.todo.id, name.value, descr.value, date.value, model.value)
+    } else {
+      const id = store.Todos.length + 1
+      store.AddTodo({
+        id: id,
+        name: name.value,
+        descr: descr.value,
+        date: date.value,
+        categorie: model.value,
+        checked: false
+      })
+    }
 
     $q.notify({
       color: 'green-4',

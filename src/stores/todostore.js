@@ -29,6 +29,9 @@ export const useTodoStore = defineStore('Todos', {
         }
       })
     },
+    getTodobyCategorie(categorie) {
+      return this.Todos.filter((todo) => todo.categorie === categorie)
+    },
     CheckTodo(id) {
       this.Todos.map((todo) => {
         if (todo.id === id) {

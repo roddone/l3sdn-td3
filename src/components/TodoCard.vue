@@ -1,25 +1,22 @@
 <template>
   <q-card class="my-card">
     <q-card-section>
-      <div class="text-h6">Our Changing Planet</div>
-      <div class="text-subtitle2">by John Doe</div>
+      <div class="text-h6">{{ todo.name }}</div>
+      <div class="text-subtitle2">{{ todo.descr }}</div>
     </q-card-section>
 
     <q-separator />
 
     <div class="q-pa-md">
-      <q-checkbox v-model="value" />
+      <q-checkbox v-model="todo.checked" />
     </div>
   </q-card>
 </template>
 
 <script setup>
 import { ref } from 'vue'
-import { useTodoStore } from '@/stores/todostore.js'
 
-const store = useTodoStore()
+const { props } = getCurrentInstance()
 
-const todo = store.getTodo(id)
-
-const value = ref(false)
+const todo = ref(props.todo)
 </script>
