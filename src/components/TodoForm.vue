@@ -1,4 +1,6 @@
 <template>
+
+
   <div class="q-pa-md" style="max-width: 400px">
     <q-form class="q-gutter-md" @submit="onSubmit" @reset="onReset">
       <q-input
@@ -16,12 +18,10 @@
         lazy-rules
         :rules="[(val) => (val !== null && val !== '') || 'Please type a description']"
       />
-    </q-form>
-  </div>
 
-  <div class="q-pa-md" style="max-width: 300px">
+      <div class="q-pa-md" style="max-width: 300px">
     <div class="q-gutter-md">
-      <q-select v-model="model" :options="options" label="Standard" />
+      <q-select v-model="model" :options="options" label="Standard"  />
     </div>
   </div>
 
@@ -44,13 +44,22 @@
     </q-btn>
   </div>
 
+
   <div class="btn">
-    <q-btn label="Submit" type="submit" color="primary" />
-    <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+        <q-btn label="Submit" type="submit" color="primary" />
+        <q-btn label="Reset" type="reset" color="primary" flat class="q-ml-sm" />
+      </div>
+
+    </q-form>
   </div>
+
+  
+
+  
 </template>
 
 <script setup>
+
 import { useTodoStore } from '../stores/todostore.js'
 
 import { ref } from 'vue'
@@ -65,7 +74,8 @@ const date = ref('2019/03/01')
 const proxyDate = ref('2019/03/01')
 
 const model = ref(null)
-const options = ['Homework', 'Personal Project', 'Hometask']
+const options = ['Homework', 'Personal Project','Hometask']
+
 
 const updateProxy = () => {
   proxyDate.value = date.value
@@ -88,7 +98,7 @@ const onSubmit = () => {
       name: name.value,
       descr: descr.value,
       date: date.value,
-      categorie: model.value,
+      categorie: categorie.value,
       checked: false
     })
 
