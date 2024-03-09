@@ -50,10 +50,10 @@ const tasks = store.tasks
         <q-btn label="Ajouter" color="accent" @click="addTask" />
         <div class="q-mt-md">
           <q-list bordered separator>
-            <q-item v-for="(item, index) in tasks" :key="index" v-ripple clickable>
+            <q-item v-for="(item, index) in tasks" :key="index">
               <q-item-section>
-                <q-item-label>{{ item.task }}</q-item-label>
-                <q-item-label caption>{{ item.desc }} - {{ item.date }}</q-item-label>
+                <q-item-label>{{ item.task }} - {{ item.date }}</q-item-label>
+                <q-item-label caption>description : {{ item.desc }}</q-item-label>
               </q-item-section>
             </q-item>
           </q-list>
