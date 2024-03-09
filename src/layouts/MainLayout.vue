@@ -8,10 +8,18 @@ const date = ref('')
 const store = useTodoStore()
 
 const addTask = () => {
-  store.addTask({ task: task.value, desc: desc.value, date: date.value })
+  store.addTask({ task: task.value, desc: desc.value, date: date.value, completed: false })
   task.value = ''
   desc.value = ''
   date.value = ''
+}
+
+const toggleCompletion = (task) => {
+  task.completed = !task.completed
+}
+
+const deleteTask = (index) => {
+  store.deleteTask(index)
 }
 
 const tasks = store.tasks
@@ -48,12 +56,23 @@ const tasks = store.tasks
           </template>
         </q-input>
         <q-btn label="Ajouter" color="accent" @click="addTask" />
-        <div class="q-mt-md">
+        <div class="q-mt-md" style="max-width: 100%">
           <q-list bordered separator>
-            <q-item v-for="(item, index) in tasks" :key="index">
+            <q-item
+              v-for="(item, index) in tasks"
+              :key="index"
+              v-ripple
+              clickable
+              :class="{ completed: item.completed }"
+              @click="toggleCompletion(item)"
+            >
               <q-item-section>
                 <q-item-label>{{ item.task }} - {{ item.date }}</q-item-label>
-                <q-item-label caption>description : {{ item.desc }}</q-item-label>
+                <q-item-label caption>Description : {{ item.desc }}</q-item-label>
+              </q-item-section>
+
+              <q-item-section side>
+                <q-btn icon="delete" flat round dense @click.stop="deleteTask(index)" />
               </q-item-section>
             </q-item>
           </q-list>
