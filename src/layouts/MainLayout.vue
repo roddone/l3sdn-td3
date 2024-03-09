@@ -18,7 +18,7 @@ const tasks = store.tasks
 </script>
 
 <template>
-  <q-layout view="lHh Lpr lFf">
+  <q-layout view="lHh Lpr lFf" class="background">
     <q-header elevated class="bg-accent shadow-2">
       <q-toolbar>
         <q-toolbar-title> Todo List </q-toolbar-title>
@@ -28,7 +28,7 @@ const tasks = store.tasks
     </q-header>
 
     <div>
-      <div class="fixed-center" style="min-width: 600px">
+      <div class="absolute-center tasks" style="min-width: 600px">
         <q-input v-model="task" class="q-mb-md" square filled label="Nouvelle tâche" />
         <q-input v-model="desc" class="q-mb-md" square filled label="Description" />
         <q-input
@@ -48,14 +48,17 @@ const tasks = store.tasks
           </template>
         </q-input>
         <q-btn label="Ajouter" color="accent" @click="addTask" />
+        <div class="q-mt-md">
+          <q-list bordered separator>
+            <q-item v-for="(item, index) in tasks" :key="index" v-ripple clickable>
+              <q-item-section>
+                <q-item-label>{{ item.task }}</q-item-label>
+                <q-item-label caption>{{ item.desc }} - {{ item.date }}</q-item-label>
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </div>
       </div>
-    </div>
-    <div>
-      <ul>
-        <li v-for="(item, index) in tasks" :key="index">
-          {{ item.task }} - {{ item.desc }} - {{ item.date }}
-        </li>
-      </ul>
     </div>
   </q-layout>
 </template>
