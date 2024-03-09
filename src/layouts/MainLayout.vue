@@ -1,92 +1,83 @@
+<script setup>
+import { ref } from 'vue'
+import { useTodoStore } from '../stores/list.js'
+const task = ref('')
+const desc = ref('')
+const date = ref('')
+
+const store = useTodoStore()
+
+const addTask = () => {
+  store.addTask({ task: task.value, desc: desc.value, date: date.value, completed: false })
+  task.value = ''
+  desc.value = ''
+  date.value = ''
+}
+
+const toggleCompletion = (task) => {
+  task.completed = !task.completed
+}
+
+const deleteTask = (index) => {
+  store.deleteTask(index)
+}
+
+const tasks = store.tasks
+</script>
+
 <template>
-  <q-layout view="lHh Lpr lFf">
-    <q-header elevated>
+  <q-layout view="lHh Lpr lFf" class="background">
+    <q-header elevated class="bg-accent shadow-2">
       <q-toolbar>
-        <q-btn
-          flat
-          dense
-          round
-          icon="menu"
-          aria-label="Menu"
-          @click="toggleLeftDrawer"
-        />
+        <q-toolbar-title> Todo List </q-toolbar-title>
 
-        <q-toolbar-title> Quasar App </q-toolbar-title>
-
-        <div>Quasar v{{ $q.version }}</div>
+        <div>Alban Stievenard & Mehdi Trari</div>
       </q-toolbar>
     </q-header>
 
-    <q-drawer v-model="leftDrawerOpen" show-if-above bordered>
-      <q-list>
-        <q-item-label header> Essential Links </q-item-label>
+    <div>
+      <div class="absolute-center tasks" style="min-width: 600px">
+        <q-input v-model="task" class="q-mb-md" square filled label="Nouvelle tâche" />
+        <q-input v-model="desc" class="q-mb-md" square filled label="Description" />
+        <q-input
+          v-model="date"
+          filled
+          mask="date"
+          label="yyyy/mm/dd"
+          class="q-mb-md"
+          :rules="['date']"
+        >
+          <template v-slot:append>
+            <q-icon name="event" class="cursor-pointer">
+              <q-popup-proxy ref="qDateProxy">
+                <q-date v-model="date"></q-date>
+              </q-popup-proxy>
+            </q-icon>
+          </template>
+        </q-input>
+        <q-btn label="Ajouter" color="accent" @click="addTask" />
+        <div class="q-mt-md" style="max-width: 100%">
+          <q-list bordered separator>
+            <q-item
+              v-for="(item, index) in tasks"
+              :key="index"
+              v-ripple
+              clickable
+              :class="{ completed: item.completed }"
+              @click="toggleCompletion(item)"
+            >
+              <q-item-section>
+                <q-item-label>{{ item.task }} - {{ item.date }}</q-item-label>
+                <q-item-label caption>Description : {{ item.desc }}</q-item-label>
+              </q-item-section>
 
-        <EssentialLink
-          v-for="link in essentialLinks"
-          :key="link.title"
-          v-bind="link"
-        />
-      </q-list>
-    </q-drawer>
-
-    <q-page-container>
-      <router-view />
-    </q-page-container>
+              <q-item-section side>
+                <q-btn icon="delete" flat round dense @click.stop="deleteTask(index)" />
+              </q-item-section>
+            </q-item>
+          </q-list>
+        </div>
+      </div>
+    </div>
   </q-layout>
 </template>
-
-<script setup>
-import { ref } from 'vue'
-import EssentialLink from 'components/EssentialLink.vue'
-
-const essentialLinks = [
-  {
-    title: 'Docs',
-    caption: 'quasar.dev',
-    icon: 'school',
-    link: 'https://quasar.dev',
-  },
-  {
-    title: 'Github',
-    caption: 'github.com/quasarframework',
-    icon: 'code',
-    link: 'https://github.com/quasarframework',
-  },
-  {
-    title: 'Discord Chat Channel',
-    caption: 'chat.quasar.dev',
-    icon: 'chat',
-    link: 'https://chat.quasar.dev',
-  },
-  {
-    title: 'Forum',
-    caption: 'forum.quasar.dev',
-    icon: 'record_voice_over',
-    link: 'https://forum.quasar.dev',
-  },
-  {
-    title: 'Twitter',
-    caption: '@quasarframework',
-    icon: 'rss_feed',
-    link: 'https://twitter.quasar.dev',
-  },
-  {
-    title: 'Facebook',
-    caption: '@QuasarFramework',
-    icon: 'public',
-    link: 'https://facebook.quasar.dev',
-  },
-  {
-    title: 'Quasar Awesome',
-    caption: 'Community Quasar projects',
-    icon: 'favorite',
-    link: 'https://awesome.quasar.dev',
-  },
-]
-
-const leftDrawerOpen = ref(false)
-
-function toggleLeftDrawer() {
-  leftDrawerOpen.value = !leftDrawerOpen.value
-}
-</script>
